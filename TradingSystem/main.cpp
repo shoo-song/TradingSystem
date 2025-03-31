@@ -40,8 +40,15 @@ TEST_F(TradingFixture, BuyTest_한도수량초과) {
 	MockDriver Mock;
 	StockerBrockerDriver Driver{ &Mock };
 	EXPECT_THROW(Driver.buy("Samsung", 1000, 10000000), std::exception);	
-
 }
+TEST_F(TradingFixture, BuyTest_Kiwer정상거래) {
+	MockDriver Mock;
+	StockerBrockerDriver Driver{ &Mock };
+	Driver.selectStockBrocker(false);
+	EXPECT_THROW(Driver.buy("Samsung", 1000, 100000), std::exception);
+}
+
+
 TEST_F(TradingFixture, SellTest_정상동작) {
 	Driver.buy("ABCD", 1000, 10);
 	EXPECT_NO_THROW(Driver.sell("ABCD", 1000, 10), std::exception);

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "StokerBrokerInterface.cpp"
+#include "KiwerDriver.cpp"
+#include "NemoDriver.cpp"
 
 class StockerBrockerDriver {
 public:
@@ -17,8 +19,20 @@ public:
 			throw std::exception("Price is more than 0");
 		if (count > 1000000)
 			throw std::exception("Count is less than 1000000");
-
-		m_API->buy(stockCode, price, count);
+		if (isNemo == true)
+			NemoDriver* driver;
+			m_API->buy(stockCode, price, count);
+	}
+	void selectStockBrocker(bool IsNemo) {
+		isNemo = IsNemo;		
+		if (isNemo == true) {
+			NemoDriver* driver = new NemoDriver;
+			m_API = driver;
+		}
+		else {
+			KiwerDriver* driver = new KiwerDriver;			
+			m_API = driver;
+		}
 	}
 	void sell(string stockCode, int price, int count) {
 
@@ -34,4 +48,6 @@ public:
 	}
 private:
 	StockerBrockerInterface* m_API;
+	
+	bool isNemo;
 };

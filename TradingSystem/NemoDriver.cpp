@@ -6,15 +6,14 @@
 class NemoDriver : public StockerBrockerInterface {
 private:
 	NemoAPI nemoAPI;
-public:
+public:	
 	void selectStockBrocker(bool IsNemo) override {
-
 	}
 	void login(string ID, string Password) override {
 		nemoAPI.certification(ID, Password);
 	}
 	void buy(string stockCode, int price, int count) override {
-
+		nemoAPI.purchasingStock(stockCode, price, count);
 	}
 	void sell(string stockCode, int price, int count) override {
 

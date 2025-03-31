@@ -3,7 +3,7 @@
 #include <windows.h>
 #include <cstdlib>
 #include <string>
-
+#include "StokerBrokerInterface.cpp"
 using namespace std;
 class NemoAPI {
 public:
