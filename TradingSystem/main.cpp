@@ -1,17 +1,11 @@
 #include "gmock/gmock.h"
 #include <iostream>
-#include "NemoAPI.cpp"
-#include "KiwerAPI.cpp"
+#include "StockerBroker.cpp"
+#include "NemoDriver.cpp"
+#include "KiwerDriver.cpp"
 using namespace std;
 using namespace testing;
-class StockerBrockerInterface {
-public:
-	virtual void selectStockBrocker(bool IsNemo) = 0;
-	virtual void login(string ID, string Password) = 0;
-	virtual void buy(string stockCode, int price, int count) = 0;
-	virtual void sell(string stockCode, int price, int count) = 0;
-	virtual int getPrice(string stockCode, int minute) = 0;
-};
+
 class MockDriver : public StockerBrockerInterface {
 public:
 	MOCK_METHOD(void, selectStockBrocker, (bool IsNemo), (override));
@@ -20,44 +14,7 @@ public:
 	MOCK_METHOD(void, sell, (string stockCode, int price, int count), (override));
 	MOCK_METHOD(int, getPrice, (string stockCode, int minute), (override));
 };
-class StockerBrockerDriver {
-public:
-	StockerBrockerDriver(StockerBrockerInterface* API) {
-		m_API = API;
-	}
-	void selectStockBrocker(bool IsNemo) {
 
-	}
-	void login(string ID, string Password) {
-
-	}
-	void buy(string stockCode, int price, int count) {
-		if (stockCode != "Samsung")
-			throw std::exception("Invalid Code");
-		if(price == 0)
-			throw std::exception("Price is more than 0");
-		if (count > 1000000)
-			throw std::exception("Count is less than 1000000");
-
-		kiwerAPI->buy(stockCode, price, count);
-	}
-	void sell(string stockCode, int price, int count) {
-
-	}
-	int getPrice(string stockCode, int minute) {
-		return 0;
-	}
-	void buyNiceTiming(string stockCode, int price) {
-
-	}
-	void sellNiceTiming(string stockCode, int count) {
-
-	}
-private:
-	StockerBrockerInterface* m_API;
-	KiwerAPI* kiwerAPI;
-	NemoAPI* nemoAPI;
-};
 class TradingFixture : public Test {
 public:
 	MockDriver Mock;
