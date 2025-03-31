@@ -37,6 +37,12 @@ public:
 	int getPrice(string stockCode, int minute) {
 		return 0;
 	}
+	void buyNiceTiming(string stockCode, int price) {
+
+	}
+	void sellNiceTiming(string stockCode, int count) {
+
+	}
 private:
 	StockerBrockerInterface* m_API;
 };
@@ -77,6 +83,19 @@ TEST_F(TradingFixture, getPrice_정상동작) {
 TEST_F(TradingFixture, getPrice_없는종목) {
 	EXPECT_THROW(Driver.getPrice("Invalid Code", 10), std::exception);
 }
+TEST_F(TradingFixture, buyNiceTiming_정상동작) {
+	EXPECT_CALL(Mock, buy("ABCD", 1000, 10));
+	EXPECT_NO_THROW(Driver.buyNiceTiming("ABCD", 1000), std::exception);
+}
+TEST_F(TradingFixture, buyNiceTiming_없는종목) {
+	EXPECT_CALL(Mock, buy("Invalid Code", 1000, 10));
+	EXPECT_THROW(Driver.buyNiceTiming("Invalid Code", 1000), std::exception);
+}
+TEST_F(TradingFixture, sellNiceTiming_정상동작) {
+	EXPECT_CALL(Mock, sell("ABCD", 1000, 10));
+	EXPECT_NO_THROW(Driver.sellNiceTiming("ABCD", 10), std::exception);
+}
+
 int main() {
 	::testing::InitGoogleMock();
 	return RUN_ALL_TESTS();
