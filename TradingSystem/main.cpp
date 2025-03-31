@@ -25,11 +25,21 @@ public:
 	StockerBrockerDriver(StockerBrockerInterface* API) {
 		m_API = API;
 	}
+	void selectStockBrocker(bool IsNemo) {
+
+	}
 	void login(string ID, string Password) {
 
 	}
 	void buy(string stockCode, int price, int count) {
+		if (stockCode != "Samsung")
+			throw std::exception("Invalid Code");
+		if(price == 0)
+			throw std::exception("Price is more than 0");
+		if (count > 1000000)
+			throw std::exception("Price is more than 0");
 
+		kiwerAPI->buy(stockCode, price, count);
 	}
 	void sell(string stockCode, int price, int count) {
 
@@ -45,6 +55,8 @@ public:
 	}
 private:
 	StockerBrockerInterface* m_API;
+	KiwerAPI* kiwerAPI;
+	NemoAPI* nemoAPI;
 };
 class TradingFixture : public Test {
 public:
@@ -58,13 +70,20 @@ TEST_F(TradingFixture, LoginTest) {
 	Driver.login("shoo-song", "1234");
 }
 TEST_F(TradingFixture, BuyTest_없는종목) {
-	EXPECT_THROW(Driver.buy("Invalid Code", 1000, 10), std::exception);
+	MockDriver Mock;		
+	StockerBrockerDriver Driver{ &Mock };
+	EXPECT_THROW(Driver.buy("Samsing", 1000, 10), std::exception);	
 }
 TEST_F(TradingFixture, BuyTest_가격0원) {
-	EXPECT_THROW(Driver.buy("ABCD", 0, 10), std::exception);
+	MockDriver Mock;
+	StockerBrockerDriver Driver{ &Mock };
+	EXPECT_THROW(Driver.buy("Samsung", 0, 10), std::exception);	
 }
 TEST_F(TradingFixture, BuyTest_한도수량초과) {
-	EXPECT_THROW(Driver.buy("ABCD", 1000, 10000000000), std::exception);
+	MockDriver Mock;
+	StockerBrockerDriver Driver{ &Mock };
+	EXPECT_THROW(Driver.buy("Samsung", 1000, 10000000), std::exception);	
+
 }
 TEST_F(TradingFixture, SellTest_정상동작) {
 	Driver.buy("ABCD", 1000, 10);
