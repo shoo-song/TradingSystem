@@ -26,7 +26,7 @@ public:
 		m_API = API;
 	}
 	void login(string ID, string Password) {
-
+		m_API->login(ID, Password);
 	}
 	void buy(string stockCode, int price, int count) {
 
