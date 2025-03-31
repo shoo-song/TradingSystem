@@ -47,6 +47,12 @@ TEST_F(TradingFixture, BuyTest_Kiwer정상거래) {
 	Driver.selectStockBrocker(false);
 	EXPECT_THROW(Driver.buy("Samsung", 1000, 100000), std::exception);
 }
+TEST_F(TradingFixture, BuyTest_Nemo정상거래) {
+	MockDriver Mock;
+	StockerBrockerDriver Driver{ &Mock };
+	Driver.selectStockBrocker(true);
+	EXPECT_THROW(Driver.buy("Samsung", 1000, 100000), std::exception);
+}
 
 
 TEST_F(TradingFixture, SellTest_정상동작) {
