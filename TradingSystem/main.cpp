@@ -37,7 +37,7 @@ public:
 		if(price == 0)
 			throw std::exception("Price is more than 0");
 		if (count > 1000000)
-			throw std::exception("Price is more than 0");
+			throw std::exception("Count is less than 1000000");
 
 		kiwerAPI->buy(stockCode, price, count);
 	}
