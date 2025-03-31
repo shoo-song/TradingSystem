@@ -84,6 +84,8 @@ TEST_F(TradingFixture, getPrice_없는종목) {
 	EXPECT_THROW(Driver.getPrice("Invalid Code", 10), std::exception);
 }
 TEST_F(TradingFixture, buyNiceTiming_정상동작) {
+	//가격을 3번 읽어서 올라가는 추세인지 확인
+	EXPECT_CALL(Mock, getPrice("ABCD", 10)).Times(3);
 	EXPECT_CALL(Mock, buy("ABCD", 1000, 10));
 	EXPECT_NO_THROW(Driver.buyNiceTiming("ABCD", 1000), std::exception);
 }
@@ -92,6 +94,8 @@ TEST_F(TradingFixture, buyNiceTiming_없는종목) {
 	EXPECT_THROW(Driver.buyNiceTiming("Invalid Code", 1000), std::exception);
 }
 TEST_F(TradingFixture, sellNiceTiming_정상동작) {
+	//가격을 3번 읽어서 내려가는 추세인지 확인
+	EXPECT_CALL(Mock, getPrice("ABCD", 10)).Times(3);
 	EXPECT_CALL(Mock, sell("ABCD", 1000, 10));
 	EXPECT_NO_THROW(Driver.sellNiceTiming("ABCD", 10), std::exception);
 }
